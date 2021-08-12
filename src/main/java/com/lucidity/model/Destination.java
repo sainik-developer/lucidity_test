@@ -5,11 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Objects;
 
-/***
- * POSTULATION:
- */
+
 @Getter
 @Setter
 public class Destination {
@@ -26,18 +23,5 @@ public class Destination {
         this.hasRoadToDestinations = hasRoadToDestinations;
         this.nameIdentifier = nameIdentifier;
         this.t = t;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Destination that = (Destination) o;
-        return Objects.equals(nameIdentifier, that.nameIdentifier);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nameIdentifier);
     }
 }

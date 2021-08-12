@@ -9,12 +9,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/***
+ * It's assumed that it's always better to visit the restaurant as that will give more freedom to reach destination as shortest time.
+ */
 public class HuresticSelectionStrategy implements SelectionStrategy {
 
     @Override
-    public Destination findNextNode(Stream<Quadruple<String, Double, String, DestinationType>> quadruple, Map<String, Destination> destinationMap, List<Destination> visitedRes) {
-        Map<String, Destination> visitedRestaurant = visitedRes.stream().collect(Collectors.toMap(Destination::getNameIdentifier, destination -> destination));
-        return quadruple
+    public Destination findNextNode(Stream<Quadruple<String, Double, String, DestinationType>> destinationCalculationMap, Map<String, Destination> destinationMap, List<Destination> visitedRestaurants) {
+        Map<String, Destination> visitedRestaurantMap = visitedRestaurants.stream().collect(Collectors.toMap(Destination::getNameIdentifier, destination -> destination));
+        return destinationCalculationMap
                 .sorted((o1, o2) -> {
                     if (Double.compare(o1.getX(), o2.getX()) == 0) {
                         return o1.getZ() == DestinationType.RESTAURANT &&
@@ -25,15 +28,15 @@ public class HuresticSelectionStrategy implements SelectionStrategy {
                         return Double.compare(o1.getX(), o2.getX());
                     }
                 })
-                .filter(stringDoubleStringDestinationTypeQuadruple -> {
-                    if (stringDoubleStringDestinationTypeQuadruple.getZ() == DestinationType.RESTAURANT) {
-                        Destination destination = visitedRestaurant.get(stringDoubleStringDestinationTypeQuadruple.getV());
+                .filter(quadruple -> {
+                    if (quadruple.getZ() == DestinationType.RESTAURANT) {
+                        Destination destination = visitedRestaurantMap.get(quadruple.getV());
                         if (destination == null) {
                             return true;
                         }
-                    } else if (stringDoubleStringDestinationTypeQuadruple.getZ() == DestinationType.CUSTOMER) {
-                        return isCustomerOfVisitedRestaurant(visitedRes, stringDoubleStringDestinationTypeQuadruple.getV());
-                    } else if (stringDoubleStringDestinationTypeQuadruple.getZ() == DestinationType.HUNGER_SAVIOR) {
+                    } else if (quadruple.getZ() == DestinationType.CUSTOMER) {
+                        return isCustomerOfVisitedRestaurant(visitedRestaurants, quadruple.getV());
+                    } else if (quadruple.getZ() == DestinationType.HUNGER_SAVIOR) {
                         return true;
                     }
                     return false;

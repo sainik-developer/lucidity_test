@@ -15,5 +15,4 @@ public enum DestinationType implements Comparable<DestinationType> {
     public static DestinationType value(String s) {
         return Arrays.stream(values()).filter(destinationType -> destinationType.ID.equals(s)).findFirst().orElse(null);
     }
-
 }

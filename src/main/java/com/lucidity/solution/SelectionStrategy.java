@@ -9,5 +9,5 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public interface SelectionStrategy {
-    Destination findNextNode(Stream<Quadruple<String, Double, String, DestinationType>> quadruple, final Map<String, Destination> destinationMap, List<Destination> visitedRes);
+    Destination findNextNode(Stream<Quadruple<String, Double, String, DestinationType>> destinationCalculationMap, final Map<String, Destination> destinationMap, List<Destination> visitedRes);
 }
