@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FormattedFileInputReader implements InputReader {
-
     @Override
     public Map<String, Destination> takeInput(final InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));

@@ -6,8 +6,12 @@ import com.lucidity.model.Quadruple;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public interface SelectionStrategy {
-    Destination findNextNode(Stream<Quadruple<String, Double, String, DestinationType>> destinationCalculationMap, final Map<String, Destination> destinationMap, List<Destination> visitedRes);
+    Destination nextSelectAsPerStrategy(final Destination source, final Stream<Quadruple<String, Double, String, DestinationType>> destinationCalculationMap,
+                                        final Map<String, Destination> destinationMap,
+                                        final List<Destination> visitedRestaurants,
+                                        final Set<String> visitedDestinations);
 }

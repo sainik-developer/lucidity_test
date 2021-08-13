@@ -7,6 +7,5 @@ import java.io.InputStream;
 import java.util.Map;
 
 public interface InputReader {
-
     Map<String, Destination> takeInput(InputStream inputStream) throws IOException;
 }
