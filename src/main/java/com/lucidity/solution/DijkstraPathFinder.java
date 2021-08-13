@@ -64,7 +64,6 @@ public class DijkstraPathFinder implements PathFinder {
             u = destinationMap.get(destinationCalculationMap.values().stream().filter(quadruple -> !quadruple.isRemoved()).min(Comparator.comparingDouble(Quadruple::getX)).map(Quadruple::getV).orElse(null));
         } while (destinationCalculationMap.values().stream().anyMatch(quadruple -> !quadruple.isRemoved()));
         return findNextDestination(source, destinationCalculationMap, destinationMap, visitedRestaurant, alreadyVisitedDestinations);
-
     }
 
     private Triplet<Destination, Double, List<String>> findNextDestination(Destination source, final Map<String, Quadruple<String, Double, String, DestinationType>> destinationCalculationMap,
@@ -91,7 +90,6 @@ public class DijkstraPathFinder implements PathFinder {
         LinkedList<String> reversedList = new LinkedList<>();
         path.descendingIterator().forEachRemaining(s -> reversedList.add(s));
         return new Triplet<>(nextDestination, cost, reversedList);
-
     }
 
     private double toTime(double distanceInKm) {
