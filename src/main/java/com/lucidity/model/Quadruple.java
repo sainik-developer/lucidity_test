@@ -10,4 +10,5 @@ public class Quadruple<V, X, Y, Z> {
     private X x;
     private Y y;
     private Z z;
+    private boolean removed;
 }

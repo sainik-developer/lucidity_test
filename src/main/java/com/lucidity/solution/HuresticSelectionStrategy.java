@@ -13,7 +13,6 @@ import java.util.stream.Stream;
  * It's assumed that it's always better to visit the restaurant as that will give more freedom to reach destination as shortest time.
  */
 public class HuresticSelectionStrategy implements SelectionStrategy {
-
     @Override
     public Destination findNextNode(Stream<Quadruple<String, Double, String, DestinationType>> destinationCalculationMap, Map<String, Destination> destinationMap, List<Destination> visitedRestaurants) {
         Map<String, Destination> visitedRestaurantMap = visitedRestaurants.stream().collect(Collectors.toMap(Destination::getNameIdentifier, destination -> destination));
@@ -41,7 +40,7 @@ public class HuresticSelectionStrategy implements SelectionStrategy {
                     }
                     return false;
                 })
-                .findAny()
+                .findFirst()
                 .map(stringDoubleStringDestinationTypeQuadruple -> destinationMap.get(stringDoubleStringDestinationTypeQuadruple.getV()))
                 .orElse(null);
     }
@@ -49,5 +48,4 @@ public class HuresticSelectionStrategy implements SelectionStrategy {
     private boolean isCustomerOfVisitedRestaurant(List<Destination> destinations, String name) {
         return destinations.stream().flatMap(destination -> destination.getHasRoadToDestinations().stream()).anyMatch(destination -> destination.getNameIdentifier().equals(name));
     }
-
 }
