@@ -23,16 +23,16 @@ public class DijkstraPathFinder implements PathFinder {
         final Set<String> bestPath = new LinkedHashSet<>();
         final List<Destination> visitedRestaurant = new LinkedList<>();
         Destination nextSource = hungerSavior;
-        double timeTaken = 0.0;
+        double timeTakenInSec = 0.0;
         bestPath.add(nextSource.getNameIdentifier());
         Triplet<Destination, Double, List<String>> nextMoveByDijkstra;
         do {
-            nextMoveByDijkstra = findBestNextMoveByDijkstra(nextSource, visitedRestaurant, destinationMap, timeTaken, bestPath);
+            nextMoveByDijkstra = findBestNextMoveByDijkstra(nextSource, visitedRestaurant, destinationMap, timeTakenInSec, bestPath);
             if (nextMoveByDijkstra == null) {
                 throw new IllegalArgumentException("No solution found!");
             }
             nextSource = nextMoveByDijkstra.getX();
-            timeTaken = nextMoveByDijkstra.getY();
+            timeTakenInSec = nextMoveByDijkstra.getY();
             bestPath.addAll(nextMoveByDijkstra.getZ());
             bestPath.add(nextSource.getNameIdentifier());
             if (nextSource.getDestinationType() == DestinationType.RESTAURANT) {
@@ -42,15 +42,15 @@ public class DijkstraPathFinder implements PathFinder {
         return bestPath.stream();
     }
 
-    private Triplet<Destination, Double, List<String>> findBestNextMoveByDijkstra(Destination source, List<Destination> visitedRestaurant, final Map<String, Destination> destinationMap, double timeTaken, final Set<String> alreadyVisitedDestinations) {
+    private Triplet<Destination, Double, List<String>> findBestNextMoveByDijkstra(Destination source, List<Destination> visitedRestaurant, final Map<String, Destination> destinationMap, double timeTakenInSec, final Set<String> alreadyVisitedDestinations) {
         Map<String, Quadruple<String, Double, String, DestinationType>> destinationCalculationMap = destinationMap.keySet().stream().collect(Collectors.toMap(s -> s, s -> new Quadruple<>(s, Double.MAX_VALUE, null, destinationMap.get(s).getDestinationType(), false)));
-        destinationCalculationMap.get(source.getNameIdentifier()).setX(timeTaken);
+        destinationCalculationMap.get(source.getNameIdentifier()).setX(timeTakenInSec);
         Destination u = source;
         do {
             Destination finalU = u;
             u.getHasRoadToDestinations().forEach(destination -> {
                 double temp = destinationCalculationMap.get(finalU.getNameIdentifier()).getX()
-                        + Math.max(toTime(distanceCalculator.findDistance(finalU, destination)), destination.getT() - timeTaken);
+                        + Math.max(toTime(distanceCalculator.findDistance(finalU, destination)), destination.getAvailabilityTimeInSec() - timeTakenInSec);
                 if (temp < destinationCalculationMap.get(destination.getNameIdentifier()).getX()) {
                     destinationCalculationMap.get(destination.getNameIdentifier()).setX(temp);
                     destinationCalculationMap.get(destination.getNameIdentifier()).setY(finalU.getNameIdentifier());

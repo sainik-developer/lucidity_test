@@ -12,6 +12,6 @@ public class Destination {
     private final DestinationType destinationType;
     private final List<Destination> hasRoadToDestinations;
     private final String nameIdentifier;
-    private final double t;
+    private final double availabilityTimeInSec;
     private List<Destination> customers;
 }
