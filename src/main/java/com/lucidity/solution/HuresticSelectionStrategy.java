@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /***
- * It's assumed that it's always better to visit the restaurant as that will give more freedom to reach destination as shortest time.
+ * It's assumed that it's always better to visit the restaurant as that will give more freedom to reach destination at shortest time.
  */
 public class HuresticSelectionStrategy implements SelectionStrategy {
     public Destination nextSelectAsPerStrategy(final Destination source, final Stream<Quadruple<String, Double, String, DestinationType>> destinationCalculationMap,
@@ -35,9 +35,7 @@ public class HuresticSelectionStrategy implements SelectionStrategy {
                     if (!visitedDestinations.contains(quadruple.getV())) {
                         if (quadruple.getZ() == DestinationType.RESTAURANT) {
                             Destination destination = visitedRestaurantMap.get(quadruple.getV());
-                            if (destination == null) {
-                                return true;
-                            }
+                            return destination == null;
                         } else if (quadruple.getZ() == DestinationType.CUSTOMER) {
                             return isCustomerOfVisitedRestaurant(visitedRestaurants, quadruple.getV());
                         }
