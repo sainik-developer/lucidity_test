@@ -26,7 +26,7 @@ public class HuresticSelectionStrategy implements SelectionStrategy {
                         return o1.getZ() == DestinationType.RESTAURANT &&
                                 o2.getZ() == DestinationType.RESTAURANT ? 0 :
                                 o1.getZ() == DestinationType.RESTAURANT && o2.getZ() != DestinationType.RESTAURANT ?
-                                        -1 : 1;
+                                        -1 : 0;
                     } else {
                         return Double.compare(o1.getX(), o2.getX());
                     }
