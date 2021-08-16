@@ -20,14 +20,14 @@ public class DijkstraPathFinder implements PathFinder {
 
     @Override
     public Stream<String> solve(final Destination hungerSavior, final Map<String, Destination> destinationMap) {
-        final Set<String> bestPath = new LinkedHashSet<>();
+        final List<String> bestPath = new LinkedList<>();
         final List<Destination> visitedRestaurant = new LinkedList<>();
         Destination nextSource = hungerSavior;
         double timeTakenInSec = 0.0;
         bestPath.add(nextSource.getNameIdentifier());
         Triplet<Destination, Double, List<String>> nextMoveByDijkstra;
         do {
-            nextMoveByDijkstra = findBestNextMoveByDijkstra(nextSource, visitedRestaurant, destinationMap, timeTakenInSec, bestPath);
+            nextMoveByDijkstra = findBestNextMoveByDijkstra(nextSource, visitedRestaurant, destinationMap, timeTakenInSec, new HashSet<>(bestPath));
             if (nextMoveByDijkstra == null) {
                 throw new IllegalArgumentException("No solution found!");
             }
@@ -38,7 +38,7 @@ public class DijkstraPathFinder implements PathFinder {
             if (nextSource.getDestinationType() == DestinationType.RESTAURANT) {
                 visitedRestaurant.add(nextSource);
             }
-        } while (!bestPath.containsAll(destinationMap.keySet()));
+        } while (!new HashSet<>(bestPath).containsAll(destinationMap.keySet()));
         return bestPath.stream();
     }
 
@@ -82,7 +82,9 @@ public class DijkstraPathFinder implements PathFinder {
         double cost = quadrupleNext.getX();
         LinkedList<String> path = new LinkedList<>();
         do {
-            path.add(quadrupleNext.getY());
+            if (!source.getNameIdentifier().equals(quadrupleNext.getY())) {
+                path.add(quadrupleNext.getY());
+            }
             Quadruple<String, Double, String, DestinationType> finalQuadrupl111e = quadrupleNext;
             quadrupleNext = destinationCalculationMap.values().stream().filter(quadruple -> quadruple.getV().equals(finalQuadrupl111e.getY()))
                     .findFirst().orElse(null);
