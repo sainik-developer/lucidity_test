@@ -1,0 +1,16 @@
+[
+    {
+        id: "1",
+        name: "Nagpal",
+        city: "BLR",
+        pin: "optional",
+        address: "optional"
+    },
+    {
+        id: "2",
+        name: "",
+        city: "",
+        pin: "",
+        address: ""
+    }
+]
